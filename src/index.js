@@ -15,7 +15,8 @@ import {
 // Icon
 import Feather from 'react-native-vector-icons/Feather';
 Feather.loadFont();
-
+// 
+// @ts-check
 class DropDownPicker extends React.Component {
     constructor(props) {
         super(props);
@@ -36,6 +37,7 @@ class DropDownPicker extends React.Component {
             if (props.defaultValue && Array.isArray(props.defaultValue) && props.defaultValue.length > 0) {
                 props.defaultValue.forEach((value, index) => {
                     items.push(
+                        // @ts-ignore
                         props.items.find(item => item.value === value)
                     )
                 });
@@ -61,6 +63,7 @@ class DropDownPicker extends React.Component {
             initialScroll: props?.autoScrollToDefaultValue,
             defaultValueIndex
         };
+        // @ts-ignore
         this.dropdownCoordinates = [];
     }
 
@@ -89,6 +92,7 @@ class DropDownPicker extends React.Component {
             if (props.defaultValue && Array.isArray(props.defaultValue) && props.defaultValue.length > 0) {
                 props.defaultValue.forEach((value, index) => {
                     items.push(
+                        // @ts-ignore
                         props.items.find(item => item.value === value)
                     )
                 });
@@ -128,9 +132,10 @@ class DropDownPicker extends React.Component {
     }
 
     componentDidMount() {
+        // @ts-ignore
         this.props.controller(this);
     }
-
+    
     componentDidUpdate() {
         // ScrollView scrollTo() can only be used after the ScrollView is rendered
         // Automatic scrolling to first defaultValue occurs on first render of dropdown ScrollView
@@ -321,6 +326,7 @@ class DropDownPicker extends React.Component {
         // onClose callback (! multiple)
         if (! multiple)
             this.props.onClose();
+        this.toggle();
     }
 
     getLayout(layout) {
@@ -389,10 +395,10 @@ class DropDownPicker extends React.Component {
         return (
             <View
                 key={index}
-                // onLayout={event => {
-                //     const layout = event.nativeEvent.layout;
-                //     this.dropdownCoordinates[index] = layout.y;
-                // }}
+                onLayout={event => {
+                    const layout = event.nativeEvent.layout;
+                    this.dropdownCoordinates[index] = layout.y;
+                }}
             >
                 <TouchableOpacity
                     key={index}
@@ -462,7 +468,7 @@ class DropDownPicker extends React.Component {
     }
 
     render() {
-        this.props.controller(this);
+        // this.props.controller(this);
         const { multiple, disabled } = this.state.props;
         const { placeholder, scrollViewProps, searchTextInputProps} = this.props;
         const isPlaceholderActive = this.state.choice.label === null || (Array.isArray(this.state.choice) && this.state.choice.length === 0);
